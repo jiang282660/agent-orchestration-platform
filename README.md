@@ -11,7 +11,7 @@
 |---|---|
 | 方案书（PDF，5000+ 字） | `docs/方案书.pdf`（源 `docs/方案书.html`） |
 | 方案讲解 PPT（14 页） | `docs/答辩PPT.pptx` |
-| 演示视频 | `frontend/videos/demo.webm`（`frontend/record_demo.mjs` 重录） |
+| 演示视频（3 分 12 秒） | `frontend/videos/演示视频.mp4`（片头+总览+演示+片尾合成，源 `frontend/record_demo.mjs`） |
 | 可运行代码 | 本仓库（后端 `backend/` + 前端 `frontend/`） |
 
 ## 目录结构
