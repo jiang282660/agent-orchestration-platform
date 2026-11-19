@@ -1,0 +1,74 @@
+name: research_report
+nodes:
+  - id: planner
+    agent: planner
+    task: "请围绕研究主题「{topic}」制定一份研究大纲，并拆解为 2~4 个可并行执行的子任务。"
+    reads: [topic]
+    writes:
+      outline: outline
+      subtasks: subtasks
+
+  - id: analyze
+    type: expand
+    depends_on: [planner]
+    input_key: subtasks
+    item_key: subtask
+    output_node: analyzer
+    output_key: analyses
+    subgraph:
+      name: analyze_sub
+      nodes:
+        - id: retriever
+          agent: retriever
+          task: "在知识库中检索与子任务「{subtask}」相关的资料，整理带来源的关键片段。知识库 ID：{kb_id}"
+          reads: [subtask, kb_id]
+          writes:
+            evidence: "*"
+        - id: analyzer
+          agent: analyzer
+          depends_on: [retriever]
+          task: "基于以下检索证据，分析子任务「{subtask}」，提炼关键论点与支撑证据。\n检索证据：{evidence}"
+          reads: [subtask, evidence]
+          writes:
+            analysis: "*"
+
+  - id: quality_loop
+    type: loop
+    depends_on: [analyze]
+    score_key: review_score
+    threshold: 0.80
+    max_iterations: 3
+    body:
+      name: quality_loop_body
+      nodes:
+        - id: writer
+          agent: writer
+          task: "请撰写《{topic}》研究报告。\n大纲：{outline}\n分析结果：{analyses}\n审校反馈（空=首次）：{feedback}\n上一版草稿（空=首次）：{draft}"
+          reads: [topic, outline, analyses, feedback, draft]
+          writes:
+            draft: "*"
+        - id: reviewer
+          agent: reviewer
+          depends_on: [writer]
+          task: "请审校以下报告草稿，从相关性/准确性/完整性/流畅性四维打分，并给出具体修改建议。\n草稿：{draft}"
+          reads: [draft]
+          writes:
+            review_score: score
+            feedback: feedback
+            review: "*"
+
+  - id: rule_gate
+    type: rule
+    depends_on: [quality_loop]
+    input_key: draft
+    writes:
+      rule_check: "*"
+      rule_score: score
+
+  - id: verifier
+    agent: verifier
+    depends_on: [quality_loop]
+    task: "对以下报告终稿做事实核查：用 kb_search 检索知识库，逐条核查关键断言是否有据，区分有据/无据断言。知识库 ID：{kb_id}\n报告：{draft}"
+    reads: [draft, kb_id]
+    writes:
+      verification: "*"

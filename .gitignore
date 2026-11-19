@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+backend/.venv/
+
+# 环境变量（含 API Key，严禁提交）
+.env
+backend/.env
+
+# 数据（SQLite 运行数据）
+backend/data/
+*.db
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# 演示视频（大文件）
+frontend/videos/
+
+# IDE / 系统
+.idea/
+.vscode/
+.DS_Store

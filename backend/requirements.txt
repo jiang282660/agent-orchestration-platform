@@ -1,0 +1,22 @@
+# M1 核心依赖
+fastapi>=0.110
+uvicorn[standard]>=0.29
+pydantic>=2.6
+pydantic-settings>=2.2
+openai>=1.30
+python-dotenv>=1.0
+python-multipart>=0.0.9
+httpx>=0.27
+
+# 持久化
+sqlalchemy>=2.0
+pyyaml>=6.0
+
+# M2 知识库（方案 A：先 BM25 关键词检索）
+jieba>=0.42.1
+rank_bm25>=0.2.2
+pypdf>=4.2
+
+# 语义检索（bge 向量：fastembed 轻量后端，免 torch；未装则自动降级纯 BM25）
+fastembed>=0.2
+# 或 sentence-transformers>=2.7（需 torch，二选一）
