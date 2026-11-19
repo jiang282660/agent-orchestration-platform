@@ -5,6 +5,15 @@
 
 完整技术方案见 [`docs/技术方案.md`](docs/技术方案.md)。
 
+## 交付物
+
+| 交付物 | 位置 |
+|---|---|
+| 方案书（PDF，5000+ 字） | `docs/方案书.pdf`（源 `docs/方案书.html`） |
+| 方案讲解 PPT（14 页） | `docs/答辩PPT.pptx` |
+| 演示视频 | `frontend/videos/demo.webm`（`frontend/record_demo.mjs` 重录） |
+| 可运行代码 | 本仓库（后端 `backend/` + 前端 `frontend/`） |
+
 ## 目录结构
 
 ```
@@ -12,7 +21,7 @@
 ├── backend/                 # Python + FastAPI 后端
 │   ├── app/
 │   │   ├── core/            # Agent 基类(ReAct)、Tool、RunState、LLM 网关
-│   │   ├── kb/              # 知识库（解析/分块/BM25 检索）
+│   │   ├── kb/              # 知识库（解析/分块/BM25+语义向量混合检索）
 │   │   ├── workflow/        # 工作流引擎（DAG/expand/loop）+ 运行器
 │   │   ├── verification/    # 规则核查
 │   │   ├── benchmark/       # 基准集（golden set）
